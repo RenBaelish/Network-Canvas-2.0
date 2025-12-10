@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useEffect, useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -28,9 +28,9 @@ const deviceIcons: Record<DeviceType, typeof Router> = {
 };
 
 const deviceColors: Record<DeviceType, string> = {
-  router: "bg-blue-500/10 border-blue-500/30",
-  switch: "bg-green-500/10 border-green-500/30",
-  pc: "bg-purple-500/10 border-purple-500/30",
+  router: "bg-blue-500/10 border-blue-500/30 dark:bg-blue-500/20 dark:border-blue-500/40",
+  switch: "bg-green-500/10 border-green-500/30 dark:bg-green-500/20 dark:border-green-500/40",
+  pc: "bg-purple-500/10 border-purple-500/30 dark:bg-purple-500/20 dark:border-purple-500/40",
 };
 
 interface DeviceNodeData {
@@ -108,39 +108,65 @@ interface NetworkCanvasProps {
 
 export function NetworkCanvas({ className }: NetworkCanvasProps) {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const { nodes: storeNodes, addNode, updateNodePosition, removeNode, activeTool } = useCanvasStore();
+  const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
+  
+  const { 
+    nodes: storeNodes, 
+    connections: storeConnections,
+    addNode, 
+    updateNodePosition, 
+    removeNode, 
+    activeTool 
+  } = useCanvasStore();
 
-  const initialNodes: Node<DeviceNodeData>[] = storeNodes.map((node) => ({
-    id: node.id,
-    type: "deviceNode",
-    position: node.position,
-    data: {
-      label: node.label,
-      deviceType: node.type,
-      onDelete: removeNode,
-    },
-  }));
-
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+
+  useEffect(() => {
+    const flowNodes: Node<DeviceNodeData>[] = storeNodes.map((node) => ({
+      id: node.id,
+      type: "deviceNode",
+      position: node.position,
+      data: {
+        label: node.label,
+        deviceType: node.type,
+        onDelete: (id: string) => {
+          removeNode(id);
+          setNodes((nds) => nds.filter((n) => n.id !== id));
+          setEdges((eds) => eds.filter((e) => e.source !== id && e.target !== id));
+        },
+      },
+    }));
+    setNodes(flowNodes);
+  }, [storeNodes, removeNode, setNodes, setEdges]);
+
+  useEffect(() => {
+    const flowEdges: Edge[] = storeConnections.map((conn) => ({
+      id: conn.id,
+      source: conn.fromNodeId,
+      target: conn.toNodeId,
+      type: "smoothstep",
+      animated: true,
+      style: { stroke: "hsl(var(--primary))", strokeWidth: 2 },
+    }));
+    setEdges(flowEdges);
+  }, [storeConnections, setEdges]);
 
   const onConnect: OnConnect = useCallback(
     (params: FlowConnection) => {
-      if (activeTool === "connect") {
-        setEdges((eds) =>
-          addEdge(
-            {
-              ...params,
-              type: "smoothstep",
-              animated: true,
-              style: { stroke: "hsl(var(--primary))", strokeWidth: 2 },
-            },
-            eds
-          )
-        );
-      }
+      setEdges((eds) =>
+        addEdge(
+          {
+            ...params,
+            type: "smoothstep",
+            animated: true,
+            style: { stroke: "hsl(var(--primary))", strokeWidth: 2 },
+          },
+          eds
+        )
+      );
     },
-    [setEdges, activeTool]
+    [setEdges]
   );
 
   const onDrop = useCallback(
@@ -148,32 +174,18 @@ export function NetworkCanvas({ className }: NetworkCanvasProps) {
       event.preventDefault();
 
       const deviceType = event.dataTransfer.getData("deviceType") as DeviceType;
-      if (!deviceType) return;
+      if (!deviceType || !reactFlowWrapper.current || !reactFlowInstance) return;
 
-      const reactFlowBounds = reactFlowWrapper.current?.getBoundingClientRect();
-      if (!reactFlowBounds) return;
-
-      const position = {
-        x: event.clientX - reactFlowBounds.left - 50,
-        y: event.clientY - reactFlowBounds.top - 50,
-      };
+      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+      
+      const position = reactFlowInstance.screenToFlowPosition({
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
+      });
 
       addNode(deviceType, position);
-
-      const newNode: Node<DeviceNodeData> = {
-        id: `node_${Date.now()}`,
-        type: "deviceNode",
-        position,
-        data: {
-          label: `${deviceType.charAt(0).toUpperCase() + deviceType.slice(1)}-${nodes.length + 1}`,
-          deviceType,
-          onDelete: removeNode,
-        },
-      };
-
-      setNodes((nds) => [...nds, newNode]);
     },
-    [addNode, removeNode, nodes.length, setNodes]
+    [addNode, reactFlowInstance]
   );
 
   const onDragOver = useCallback((event: React.DragEvent) => {
@@ -188,7 +200,8 @@ export function NetworkCanvas({ className }: NetworkCanvasProps) {
     [updateNodePosition]
   );
 
-  const panOnDrag = activeTool === "pan" ? [1, 2] : [2];
+  const panOnDrag = activeTool === "pan" ? [0, 1, 2] : [1, 2];
+  const connectOnClick = activeTool === "connect";
 
   return (
     <div
@@ -205,11 +218,13 @@ export function NetworkCanvas({ className }: NetworkCanvasProps) {
         onDrop={onDrop}
         onDragOver={onDragOver}
         onNodeDragStop={onNodeDragStop}
+        onInit={setReactFlowInstance}
         nodeTypes={nodeTypes}
         panOnDrag={panOnDrag}
         selectionOnDrag={activeTool === "select"}
         panOnScroll={activeTool === "pan"}
-        zoomOnScroll={activeTool !== "pan"}
+        zoomOnScroll={true}
+        connectOnClick={connectOnClick}
         fitView
         className="bg-background"
         proOptions={{ hideAttribution: true }}
