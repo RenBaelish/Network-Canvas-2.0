@@ -1,0 +1,89 @@
+Bertindaklah sebagai Senior Frontend Engineer yang ahli dalam Next.js, TypeScript, dan UX Design.
+
+
+
+Saya ingin Anda membuatkan kode lengkap untuk aplikasi web bernama "Network Canvas" (NetVas). Aplikasi ini adalah alat visualisasi topologi jaringan (mirip Cisco Packet Tracer versi web ringan).
+
+
+
+**Spesifikasi Teknis (Wajib):**
+
+1.  **Framework:** Next.js 14/15 (App Router).
+
+2.  **Language:** TypeScript (Strict Mode). Gunakan Interface dan Type untuk semua komponen dan state.
+
+3.  **Styling:** Tailwind CSS (Wajib responsif total: Mobile-First approach).
+
+4.  **Icons:** Lucide-React.
+
+5.  **State Management:** Zustand (Store harus fully typed).
+
+6.  **Drag & Drop Library:** react-flow.
+
+
+
+**Struktur Halaman (Routing):**
+
+1.  **Halaman Home (`/`)**:
+
+    - Landing page modern.
+
+    - Judul: "Network Canvas".
+
+    - Tombol CTA: Link ke `/canvas`.
+
+    - Footer sederhana.
+
+
+
+2.  **Halaman Canvas (`/canvas`)**:
+
+    - Layout utama aplikasi.
+
+    - **Header:** Toolbar (Select, Pan, Connect).
+
+    - **Sidebar (Kiri):** Pustaka perangkat (Router, Switch, PC).
+
+        - *Responsive Behavior:* Di Mobile, sidebar tersembunyi (Drawer/Overlay). Di Desktop, sidebar fixed (Collapsible).
+
+    - **Canvas Area:** Area drop zone.
+
+
+
+**Fitur Fungsional:**
+
+1.  **Add Device:** User men-drag icon dari Sidebar dan melepaskannya (drop) di Canvas Area untuk membuat instance perangkat baru.
+
+2.  **Move Device:** Perangkat di dalam canvas bisa digeser posisinya (X, Y).
+
+3.  **Data Structure:**
+
+    - Buat interface `DeviceNode` yang memiliki `id`, `type` (router/switch/pc), `position` {x, y}, dan `label`.
+
+    - Buat interface `Connection` yang memiliki `id`, `fromNodeId`, `toNodeId`.
+
+4.  **Responsive:** Pastikan Canvas tetap bisa digunakan di layar sentuh (tablet/hp).
+
+
+
+**Instruksi Output:**
+
+Tolong berikan kode lengkap untuk file-file berikut dengan penamaan file yang benar:
+
+1.  `types/canvas.ts` (Definisi Interface TS).
+
+2.  `store/useCanvasStore.ts` (Zustand Store dengan TypeScript).
+
+3.  `components/Sidebar.tsx` (Sidebar library).
+
+4.  `components/DraggableNode.tsx` (Komponen node individu).
+
+5.  `components/CanvasArea.tsx` (Area utama).
+
+6.  `app/page.tsx` (Landing page).
+
+7.  `app/canvas/page.tsx` (Halaman editor).
+
+
+
+Mohon tuliskan kodenya agar saya bisa langsung copy-paste.
