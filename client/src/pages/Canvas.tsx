@@ -3,28 +3,40 @@ import { ReactFlowProvider } from "reactflow";
 import { CanvasHeader } from "@/components/CanvasHeader";
 import { DeviceSidebar } from "@/components/DeviceSidebar";
 import { NetworkCanvas } from "@/components/NetworkCanvas";
+import { CanvasToolbar } from "@/components/CanvasToolbar";
 
 export default function CanvasPage() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
     <ReactFlowProvider>
-      <div className="h-screen flex flex-col bg-background" data-testid="canvas-page">
+      <div className="h-screen flex flex-col bg-background overflow-hidden">
+        {/* Header (Logo & Basic Nav) */}
         <CanvasHeader />
-        
-        <div className="flex-1 flex overflow-hidden">
+
+        <div className="flex-1 flex overflow-hidden relative">
+
+          {/* Left Sidebar (Device Library) */}
           <DeviceSidebar
             collapsed={sidebarCollapsed}
             onCollapse={setSidebarCollapsed}
           />
-          
-          <main className="flex-1 relative overflow-hidden">
-            <NetworkCanvas className="absolute inset-0" />
-            
-            <div className="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 pointer-events-none">
-              <div className="bg-card/80 backdrop-blur-sm border border-card-border rounded-lg px-4 py-2 pointer-events-auto inline-block">
-                <p className="text-xs text-muted-foreground">
-                  Drag devices from the sidebar to add them to the canvas
+
+          {/* Main Canvas Area */}
+          <main className="flex-1 relative flex flex-col">
+
+            {/* Floating Toolbar (Mirip Draw.io modern UI) */}
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-40 w-auto">
+               <CanvasToolbar />
+            </div>
+
+            <NetworkCanvas className="flex-1" />
+
+            {/* Helper Text (Opsional) */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none z-40">
+              <div className="bg-background/60 backdrop-blur-sm border border-border rounded-full px-4 py-1.5 shadow-sm">
+                <p className="text-[10px] text-muted-foreground font-medium">
+                  {sidebarCollapsed ? "Press 'L' to open Library" : "Drag devices to start designing"}
                 </p>
               </div>
             </div>

@@ -1,6 +1,18 @@
 import { z } from "zod";
 
-export type DeviceType = "router" | "switch" | "pc";
+// 1. Tambahkan 'text' ke sini
+export type DeviceType =
+  | "router"
+  | "switch"
+  | "pc"
+  | "laptop"
+  | "server"
+  | "firewall"
+  | "access_point"
+  | "cloud"
+  | "internet"
+  | "database"
+  | "text"; // <--- BARU
 
 export interface Position {
   x: number;
@@ -18,6 +30,8 @@ export interface Connection {
   id: string;
   fromNodeId: string;
   toNodeId: string;
+  sourceHandle?: string | null;
+  targetHandle?: string | null;
 }
 
 export interface CanvasState {
@@ -29,7 +43,19 @@ export interface CanvasState {
 
 export const deviceNodeSchema = z.object({
   id: z.string(),
-  type: z.enum(["router", "switch", "pc"]),
+  type: z.enum([
+    "router",
+    "switch",
+    "pc",
+    "laptop",
+    "server",
+    "firewall",
+    "access_point",
+    "cloud",
+    "internet",
+    "database",
+    "text" // <--- BARU
+  ]),
   position: z.object({
     x: z.number(),
     y: z.number(),
@@ -41,6 +67,8 @@ export const connectionSchema = z.object({
   id: z.string(),
   fromNodeId: z.string(),
   toNodeId: z.string(),
+  sourceHandle: z.string().nullable().optional(),
+  targetHandle: z.string().nullable().optional(),
 });
 
 export type InsertDeviceNode = z.infer<typeof deviceNodeSchema>;

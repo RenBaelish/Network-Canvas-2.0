@@ -320,4 +320,11 @@
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+
+  /* Custom style for selected connection */
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: hsl(var(--primary)) !important; /* Warna kabel jadi primary saat dipilih */
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 2px hsl(var(--primary) / 0.5));
+}
 }

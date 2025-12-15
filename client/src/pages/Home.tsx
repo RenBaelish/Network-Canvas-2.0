@@ -1,139 +1,41 @@
-import { ArrowRight, Sparkles, Network, Search, Menu } from "lucide-react";
-import { SiGithub, SiDiscord } from "react-icons/si";
+import {
+  Sparkles,
+  Network,
+  Zap,
+  Share2,
+  Layers,
+  MousePointer2,
+  FileJson,
+  Settings,
+  ArrowRight
+} from "lucide-react";
+import { SiGithub } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
-function InteractiveDemo() {
-  return (
-    <div className="relative w-full max-w-lg">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 rounded-3xl" />
-      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-gradient-to-br from-primary/20 to-transparent rounded-full blur-3xl" />
-      
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
-        <defs>
-          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--muted-foreground))" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="hsl(var(--muted-foreground))" stopOpacity="0.1" />
-          </linearGradient>
-        </defs>
-        <path 
-          d="M 200 80 Q 280 80 310 140" 
-          fill="none" 
-          stroke="url(#lineGradient)" 
-          strokeWidth="2" 
-          strokeDasharray="4 4"
-        />
-        <path 
-          d="M 200 180 Q 280 180 310 140" 
-          fill="none" 
-          stroke="url(#lineGradient)" 
-          strokeWidth="2" 
-          strokeDasharray="4 4"
-        />
-        <path 
-          d="M 200 280 Q 280 280 310 180" 
-          fill="none" 
-          stroke="url(#lineGradient)" 
-          strokeWidth="2" 
-          strokeDasharray="4 4"
-        />
-        <path 
-          d="M 380 160 Q 440 160 480 160" 
-          fill="none" 
-          stroke="url(#lineGradient)" 
-          strokeWidth="2" 
-          strokeDasharray="4 4"
-        />
-      </svg>
-
-      <div className="relative grid gap-4 p-8" style={{ zIndex: 2 }}>
-        <div className="bg-card border border-card-border rounded-xl p-4 shadow-lg w-48">
-          <p className="text-xs text-muted-foreground mb-2">device type</p>
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded bg-primary flex items-center justify-center">
-              <Network className="w-3 h-3 text-primary-foreground" />
-            </div>
-            <span className="text-sm font-medium">Router</span>
-          </div>
-        </div>
-
-        <div className="bg-card border border-card-border rounded-xl p-4 shadow-lg w-48">
-          <p className="text-xs text-muted-foreground mb-3">connection</p>
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <div className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-primary" />
-              </div>
-              <span className="text-sm">ethernet</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <div className="w-4 h-4 rounded-full border-2 border-muted-foreground" />
-              <span className="text-sm text-muted-foreground">fiber</span>
-            </label>
-          </div>
-        </div>
-
-        <div className="bg-card border border-card-border rounded-xl p-4 shadow-lg w-48">
-          <p className="text-xs text-muted-foreground mb-3">zoom level</p>
-          <div className="relative">
-            <div className="h-1.5 bg-muted rounded-full">
-              <div className="h-full w-2/3 bg-gradient-to-r from-primary/50 to-primary rounded-full" />
-            </div>
-            <div className="absolute top-1/2 left-2/3 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full shadow-lg" />
-          </div>
-        </div>
-
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 bg-card border border-card-border rounded-xl p-4 shadow-lg w-40">
-          <p className="text-xs text-muted-foreground mb-3">output</p>
-          <div className="grid grid-cols-4 gap-1">
-            {Array.from({ length: 16 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-4 h-4 rounded-sm bg-primary transform rotate-12"
-                style={{
-                  opacity: 0.5 + Math.random() * 0.5,
-                  transform: `rotate(${10 + Math.random() * 30}deg) scale(${0.8 + Math.random() * 0.4})`,
-                }}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+// Data Features
+// PERBAIKAN 1: Hapus 'text-primary' dari className ikon di sini
+const features = [
+  { icon: <MousePointer2 className="w-6 h-6" />, title: "Intuitive Drag & Drop", description: "Easily design network topologies by dragging devices onto the canvas and connecting them seamlessly." },
+  { icon: <FileJson className="w-6 h-6" />, title: "JSON Import/Export", description: "Save your work as JSON to edit later, or export your topology data for use in other applications." },
+  { icon: <Layers className="w-6 h-6" />, title: "Layered Visualization", description: "Organize complex networks with grouping features and distinct visual layers for better clarity." },
+  { icon: <Settings className="w-6 h-6" />, title: "Custom Properties", description: "Configure IP addresses, interfaces, and device names directly within the visual editor." },
+  { icon: <Zap className="w-6 h-6" />, title: "Fast Performance", description: "Built with Vite and React for a lightning-fast experience even with large network diagrams." },
+  { icon: <Share2 className="w-6 h-6" />, title: "Easy Sharing", description: "Export your diagrams as high-quality images to share with your team or include in documentation." }
+];
 
 export default function Home() {
-  const [isDark, setIsDark] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    if (stored === "dark" || (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-      setIsDark(true);
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newIsDark = !isDark;
-    setIsDark(newIsDark);
-    if (newIsDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-background">
-      <div 
-        className="absolute inset-0 pointer-events-none overflow-hidden"
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary/20">
+      <Navbar />
+
+      {/* Grid Pattern Background - Fixed */}
+      <div
+        className="fixed inset-0 pointer-events-none overflow-hidden"
         style={{
+          zIndex: 0,
           backgroundImage: `
             linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
             linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
@@ -141,163 +43,164 @@ export default function Home() {
           backgroundSize: '40px 40px',
           maskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
           WebkitMaskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
+          opacity: 0.3
         }}
       />
 
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 h-14 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-8">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 grid grid-cols-2 gap-0.5">
-                <div className="w-3 h-3 rounded-sm bg-foreground" />
-                <div className="w-3 h-3 rounded-sm bg-foreground" />
-                <div className="w-3 h-3 rounded-sm bg-foreground" />
-                <div className="w-3 h-3 rounded-sm bg-foreground" />
-              </div>
-              <span className="font-semibold text-foreground">Network Canvas</span>
-            </Link>
+      <main className="relative flex-1">
 
-            <nav className="hidden md:flex items-center gap-1">
-              {["Learn", "Examples", "Docs", "Showcase"].map((item) => (
-                <Button key={item} variant="ghost" size="sm" className="text-muted-foreground">
-                  {item}
-                </Button>
-              ))}
-            </nav>
-          </div>
+        {/* HERO SECTION - CENTERED */}
+        <section className="relative z-10 max-w-5xl mx-auto px-4 md:px-8 pt-20 pb-24 md:pt-32 md:pb-40 text-center">
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
 
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="hidden md:flex text-muted-foreground">
-              <Search className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="icon" className="hidden md:flex text-muted-foreground">
-              <SiGithub className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="icon" className="hidden md:flex text-muted-foreground">
-              <SiDiscord className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="text-muted-foreground"
-              data-testid="button-theme-toggle-home"
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </Button>
-            <Link href="/canvas">
-              <Button className="hidden sm:flex" data-testid="button-get-started-nav">
-                <Sparkles className="w-4 h-4 mr-2" />
-                NetVas Pro
-              </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              <Menu className="w-5 h-5" />
-            </Button>
-          </div>
-        </div>
+            {/* Title */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
+              <span className="text-foreground">Wire your ideas</span>
+              <br />
+              <span className="text-foreground">with </span>
+              <span className="text-primary">NetVas</span>
+            </h1>
 
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-border bg-background p-4">
-            <nav className="flex flex-col gap-2">
-              {["Learn", "Examples", "Docs", "Showcase"].map((item) => (
-                <Button key={item} variant="ghost" className="justify-start text-muted-foreground">
-                  {item}
-                </Button>
-              ))}
+            {/* Description */}
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              A professional-grade, browser-based network topology designer. Visualize your infrastructure with speed and precision directly in your browser.
+            </p>
+
+            {/* Buttons */}
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
               <Link href="/canvas">
-                <Button className="w-full mt-2">
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  NetVas Pro
+                <Button size="lg" className="h-14 px-10 rounded-full gap-2 text-base shadow-lg shadow-primary/20 hover:scale-105 transition-all duration-300 group" data-testid="button-start-designing">
+                  <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  Quickstart
                 </Button>
               </Link>
-            </nav>
-          </div>
-        )}
-      </header>
-
-      <main className="relative">
-        <section className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                <span className="text-foreground">Wire your ideas</span>
-                <br />
-                <span className="text-foreground">with </span>
-                <span className="bg-gradient-to-r from-primary via-primary to-primary/70 bg-clip-text text-transparent">
-                  NetVas
-                </span>
-              </h1>
-
-              <p className="text-lg md:text-xl text-muted-foreground max-w-lg">
-                A customizable React component for building node-based editors and interactive network diagrams.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Link href="/canvas">
-                  <Button size="lg" className="h-12 px-6 rounded-full gap-2" data-testid="button-start-designing">
-                    <Sparkles className="w-4 h-4" />
-                    Quickstart
-                  </Button>
-                </Link>
-                <Link href="/canvas">
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    className="h-12 px-6 rounded-full gap-2 border-primary/30 text-primary"
-                    data-testid="button-start-now"
-                  >
-                    <Sparkles className="w-4 h-4" />
-                    NetVas Pro
-                  </Button>
-                </Link>
-              </div>
+              <Link href="/canvas">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="h-14 px-10 rounded-full gap-2 text-base border-primary/20 hover:bg-primary/5 transition-all duration-300"
+                >
+                  <SiGithub className="w-5 h-5" />
+                  Star on GitHub
+                </Button>
+              </Link>
             </div>
 
-            <div className="hidden lg:block">
-              <InteractiveDemo />
+            {/* Social Proof */}
+            <div className="flex flex-col items-center justify-center gap-3 pt-8 opacity-80">
+              <div className="flex -space-x-3">
+                  {[1,2,3,4].map(i => (
+                    <div key={i} className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center text-[10px] font-bold shadow-sm">
+                      U{i}
+                    </div>
+                  ))}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Trusted by <span className="font-bold text-foreground">1,000+</span> Network Engineers
+              </p>
             </div>
           </div>
         </section>
 
-        <section className="max-w-7xl mx-auto px-4 md:px-8 py-16 lg:hidden">
-          <div className="bg-card border border-card-border rounded-2xl p-6 shadow-lg">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-muted rounded-xl p-4">
-                <p className="text-xs text-muted-foreground mb-2">device type</p>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded bg-primary flex items-center justify-center">
-                    <Network className="w-3 h-3 text-primary-foreground" />
-                  </div>
-                  <span className="text-sm font-medium">Router</span>
-                </div>
-              </div>
-              <div className="bg-muted rounded-xl p-4">
-                <p className="text-xs text-muted-foreground mb-2">connection</p>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-primary" />
-                  </div>
-                  <span className="text-sm">ethernet</span>
-                </div>
-              </div>
+        {/* FEATURES GRID SECTION */}
+        <section className="relative z-10 py-24 bg-card/30 border-y border-border/50 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="text-center mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 view-timeline-name:--entry">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">Everything you need to design</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Built for developers and network engineers who need a lightweight, powerful, and beautiful topology tool.
+              </p>
             </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {features.map((feature, idx) => (
+                <div
+                  key={idx}
+                  className="bg-background/80 border border-border p-8 rounded-3xl hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300 group hover:-translate-y-1"
+                >
+                  {/* PERBAIKAN 2: Tambahkan 'text-primary' di parent div ini */}
+                  <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* WORKFLOW SECTION */}
+        <section className="relative z-10 py-32 max-w-7xl mx-auto px-4 md:px-8">
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+                <div className="order-2 md:order-1 animate-in fade-in slide-in-from-left-8 duration-700">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-8">Streamlined Workflow</h2>
+                  <div className="space-y-10">
+                    {[
+                        { step: 1, title: "Add Devices", desc: "Select from a library of routers, switches, and end devices. Drag them onto your infinite canvas." },
+                        { step: 2, title: "Connect Interfaces", desc: "Draw cables between ports. Choose between Ethernet, Fiber, or Serial connections instantly." },
+                        { step: 3, title: "Export Topology", desc: "Download your diagram as a clean PNG image or save the JSON structure for future editing." }
+                    ].map((item) => (
+                        <div key={item.step} className="flex gap-6 group">
+                            <div className="flex flex-col items-center">
+                                <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform">
+                                    {item.step}
+                                </div>
+                                {item.step !== 3 && <div className="w-0.5 h-full bg-gradient-to-b from-primary to-transparent mt-4 opacity-30" />}
+                            </div>
+                            <div className="pb-8">
+                                <h4 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{item.title}</h4>
+                                <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Visual Representation of Workflow - Animated */}
+                <div className="order-1 md:order-2 relative bg-gradient-to-br from-muted/50 to-muted/10 rounded-[2.5rem] p-10 border border-border animate-in fade-in slide-in-from-right-8 duration-700">
+                   <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full animate-pulse" />
+                   <div className="relative space-y-6">
+                      <div className="bg-card p-6 rounded-2xl border border-border flex items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
+                         <div className="p-3 bg-blue-500/10 rounded-lg text-blue-500"><Network /></div>
+                         <div className="h-3 w-32 bg-muted rounded animate-pulse" />
+                         <ArrowRight className="ml-auto text-muted-foreground w-5 h-5" />
+                      </div>
+                      <div className="bg-card p-6 rounded-2xl border border-border flex items-center gap-6 shadow-sm hover:shadow-md transition-shadow ml-12">
+                         <div className="p-3 bg-purple-500/10 rounded-lg text-purple-500"><Settings /></div>
+                         <div className="h-3 w-40 bg-muted rounded animate-pulse" />
+                         <ArrowRight className="ml-auto text-muted-foreground w-5 h-5" />
+                      </div>
+                      <div className="bg-card p-6 rounded-2xl border border-border flex items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
+                         <div className="p-3 bg-green-500/10 rounded-lg text-green-500"><Share2 /></div>
+                         <div className="h-3 w-24 bg-muted rounded animate-pulse" />
+                         <div className="ml-auto text-xs bg-green-500/10 text-green-600 font-bold px-3 py-1.5 rounded-full">Done</div>
+                      </div>
+                   </div>
+                </div>
+            </div>
+        </section>
+
+        {/* CTA BOTTOM */}
+        <section className="relative z-10 py-24 px-4">
+          <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-[3rem] p-12 md:p-16 text-center relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-32 bg-primary/20 blur-[120px] rounded-full pointer-events-none group-hover:bg-primary/30 transition-colors duration-1000" />
+
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to map your network?</h2>
+            <p className="text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
+              Start creating professional network diagrams directly in your browser. No registration required.
+            </p>
+            <Link href="/canvas">
+              <Button size="lg" className="rounded-full h-16 px-10 text-lg shadow-xl shadow-primary/20 hover:scale-105 transition-transform duration-300">
+                Launch NetVas Canvas
+                <ArrowRight className="ml-3 w-5 h-5" />
+              </Button>
+            </Link>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-border mt-auto">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-center">
-          <p className="text-sm text-muted-foreground">
-            Network Canvas (NetVas) - Visual Network Topology Designer
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,8 +1,7 @@
-import { Network, Moon, Sun } from "lucide-react";
+import { Moon, Sun, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { MobileSidebar } from "./DeviceSidebar";
-import { CanvasToolbar } from "./CanvasToolbar";
 import { useEffect, useState } from "react";
 
 export function CanvasHeader() {
@@ -30,32 +29,51 @@ export function CanvasHeader() {
 
   return (
     <header
-      className="sticky top-0 z-50 flex items-center justify-between gap-4 px-4 h-14 bg-card border-b border-card-border"
+      className="sticky top-0 z-50 flex items-center justify-between gap-4 px-4 h-14 bg-background border-b border-border shadow-sm"
       data-testid="canvas-header"
     >
       <div className="flex items-center gap-2">
         <MobileSidebar />
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 flex items-center justify-center rounded-md bg-primary">
-            <Network className="w-4 h-4 text-primary-foreground" />
+
+        {/* LOGO SECTION (Sama persis dengan Navbar) */}
+        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          {/* 1. Logo Image */}
+          <img
+            src="/logo2.png"
+            alt="NetVas Logo"
+            className="h-9 w-auto object-contain" // h-9 (36px) agar pas di header canvas yang padat
+          />
+
+          {/* 2. Logo Text */}
+          <div className="font-bold text-lg tracking-tight hidden sm:block">
+            <span className="text-primary">Network</span>
+            <span className="text-foreground ml-1.5">Canvas</span>
           </div>
-          <span className="hidden sm:block font-semibold text-foreground">NetVas</span>
         </Link>
       </div>
 
-      <div className="flex-1 flex justify-center">
-        <CanvasToolbar />
-      </div>
+      {/* Spacer agar elemen kanan terdorong ke ujung */}
+      <div className="flex-1" />
 
       <div className="flex items-center gap-2">
+        {/* Tombol Theme Toggle */}
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleTheme}
+          className="text-muted-foreground hover:text-foreground rounded-full"
           data-testid="button-theme-toggle"
         >
-          {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
         </Button>
+
+        {/* Tombol Exit / Back to Home */}
+        <Link href="/">
+            <Button variant="outline" size="sm" className="hidden sm:flex gap-2 border-primary/20 hover:bg-primary/5 hover:text-primary">
+                <ChevronLeft className="w-4 h-4" />
+                Exit
+            </Button>
+        </Link>
       </div>
     </header>
   );
