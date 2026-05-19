@@ -14,7 +14,7 @@ export function Footer() {
           {}
           <div className="flex items-center gap-4 order-1 md:order-2">
             <a
-              href="https://github.com"
+              href="https://github.com/RenBaelish/Network-Canvas-2.0"
               target="_blank"
               rel="noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors p-2 hover:bg-muted rounded-full"

@@ -37,7 +37,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
   const { zoomIn, zoomOut, fitView, deleteElements, getNodes, getEdges } = useReactFlow();
 
   const [hasSelection, setHasSelection] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState<'png' | 'pdf' | null>(null);
 
   useEffect(() => {
     const checkSelection = () => {
@@ -49,7 +49,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
   }, [nodes]);
 
   const downloadImage = async (format: 'png' | 'pdf') => {
-    setIsDownloading(true);
+    setIsDownloading(format);
     try {
 
       const viewportElement = document.querySelector('.react-flow__viewport') as HTMLElement;
@@ -61,7 +61,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
       const nodes = getNodes();
       if (nodes.length === 0) {
         alert("Canvas is empty!");
-        setIsDownloading(false);
+        setIsDownloading(null);
         return;
       }
 
@@ -106,7 +106,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
       console.error("Failed to download:", error);
       alert("Failed to export canvas.");
     } finally {
-      setIsDownloading(false);
+      setIsDownloading(null);
     }
   };
 
@@ -177,13 +177,13 @@ export function CanvasToolbar({ className }: { className?: string }) {
               icon={FileImage}
               label="Download PNG"
               onClick={() => downloadImage('png')}
-              isLoading={isDownloading}
+              isLoading={isDownloading === 'png'}
             />
             <ToolBtn
               icon={FileText}
               label="Download PDF"
               onClick={() => downloadImage('pdf')}
-              isLoading={isDownloading}
+              isLoading={isDownloading === 'pdf'}
             />
         </div>
 

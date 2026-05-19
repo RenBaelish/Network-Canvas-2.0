@@ -62,7 +62,7 @@ export default function Home() {
 
               {}
               <a
-                href="https://github.com/RenBaelish"
+                href="https://github.com/RenBaelish/Network-Canvas-2.0"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"
