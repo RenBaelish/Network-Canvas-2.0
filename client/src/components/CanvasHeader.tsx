@@ -35,16 +35,16 @@ export function CanvasHeader() {
       <div className="flex items-center gap-2">
         <MobileSidebar />
 
-        {/* LOGO SECTION (Sama persis dengan Navbar) */}
+        {}
         <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          {/* 1. Logo Image */}
+          {}
           <img
             src="/logo2.png"
             alt="NetVas Logo"
-            className="h-9 w-auto object-contain" // h-9 (36px) agar pas di header canvas yang padat
+            className="h-9 w-auto object-contain" 
           />
 
-          {/* 2. Logo Text */}
+          {}
           <div className="font-bold text-lg tracking-tight hidden sm:block">
             <span className="text-primary">Network</span>
             <span className="text-foreground ml-1.5">Canvas</span>
@@ -52,11 +52,11 @@ export function CanvasHeader() {
         </Link>
       </div>
 
-      {/* Spacer agar elemen kanan terdorong ke ujung */}
+      {}
       <div className="flex-1" />
 
       <div className="flex items-center gap-2">
-        {/* Tombol Theme Toggle */}
+        {}
         <Button
           variant="ghost"
           size="icon"
@@ -67,7 +67,7 @@ export function CanvasHeader() {
           {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
         </Button>
 
-        {/* Tombol Exit / Back to Home */}
+        {}
         <Link href="/">
             <Button variant="outline" size="sm" className="hidden sm:flex gap-2 border-primary/20 hover:bg-primary/5 hover:text-primary">
                 <ChevronLeft className="w-4 h-4" />

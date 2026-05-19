@@ -77,7 +77,6 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // FIX untuk Windows: hapus reusePort dan host
   const port = parseInt(process.env.PORT || "5000", 10);
 
   httpServer.listen(port, () => {

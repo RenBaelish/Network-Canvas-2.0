@@ -11,7 +11,6 @@ import { toPng } from "html-to-image";
 import { jsPDF } from "jspdf";
 import { useCallback, useEffect, useState } from "react";
 
-// Helper Button Component
 function ToolBtn({ icon: Icon, label, isActive, onClick, shortcut, disabled, variant = "ghost", isLoading }: any) {
   return (
     <Tooltip>
@@ -40,31 +39,25 @@ export function CanvasToolbar({ className }: { className?: string }) {
   const [hasSelection, setHasSelection] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  // Deteksi Selection
   useEffect(() => {
     const checkSelection = () => {
-      const selectedNodes = nodes.some(n => n.selected); // Cek dari store atau reactflow state jika ada
-      // Untuk akurasi ReactFlow state, kita bisa pakai useStoreApi, tapi
-      // cara paling simpel kita cek manual saat render atau pass selection state
-      // (Untuk simplifikasi, tombol delete akan selalu aktif jika ada nodes)
+      const selectedNodes = nodes.some(n => (n as any).selected); 
+
       setHasSelection(selectedNodes);
     };
     checkSelection();
   }, [nodes]);
 
-  // --- LOGIC DOWNLOAD GAMBAR & PDF ---
   const downloadImage = async (format: 'png' | 'pdf') => {
     setIsDownloading(true);
     try {
-      // 1. Ambil elemen viewport React Flow
-      // Kita menargetkan class internal react-flow untuk menangkap kontennya saja
+
       const viewportElement = document.querySelector('.react-flow__viewport') as HTMLElement;
 
       if (!viewportElement) {
         throw new Error("Canvas viewport not found");
       }
 
-      // 2. Hitung area (bounds) dari semua node agar gambar pas (tidak terpotong)
       const nodes = getNodes();
       if (nodes.length === 0) {
         alert("Canvas is empty!");
@@ -72,17 +65,14 @@ export function CanvasToolbar({ className }: { className?: string }) {
         return;
       }
 
-      // Menggunakan helper reactflow untuk mendapatkan kotak pembatas semua node
       const nodesBounds = getRectOfNodes(nodes);
 
-      // Tambahkan padding agar gambar tidak terlalu mepet
       const imageWidth = nodesBounds.width;
       const imageHeight = nodesBounds.height;
       const transform = getTransformForBounds(nodesBounds, nodesBounds.width, nodesBounds.height, 0.5, 2);
 
-      // 3. Konversi ke PNG (Data URL)
       const dataUrl = await toPng(viewportElement, {
-        backgroundColor: '#ffffff', // Pastikan background putih (atau transparan jika dihapus)
+        backgroundColor: '#ffffff', 
         width: imageWidth,
         height: imageHeight,
         style: {
@@ -90,14 +80,13 @@ export function CanvasToolbar({ className }: { className?: string }) {
           height: imageHeight.toString(),
           transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
         },
-        // Filter elemen yang tidak diinginkan (opsional)
+
         filter: (node) => {
-            // Jangan ikutkan elemen control/minimap jika mereka berada di dalam viewport (biasanya sih diluar)
+
             return true;
         }
       });
 
-      // 4. Proses Download sesuai format
       if (format === 'png') {
         const a = document.createElement('a');
         a.setAttribute('download', 'network-topology.png');
@@ -107,7 +96,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
         const pdf = new jsPDF({
           orientation: imageWidth > imageHeight ? 'l' : 'p',
           unit: 'px',
-          format: [imageWidth + 50, imageHeight + 50] // Ukuran PDF menyesuaikan gambar + margin
+          format: [imageWidth + 50, imageHeight + 50] 
         });
         pdf.addImage(dataUrl, 'PNG', 25, 25, imageWidth, imageHeight);
         pdf.save('network-topology.pdf');
@@ -138,7 +127,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
     <TooltipProvider delayDuration={300}>
       <div className={`flex items-center gap-1 p-1 bg-background/80 backdrop-blur-md border border-border shadow-sm rounded-lg ${className}`}>
 
-        {/* History Group */}
+        {}
         <div className="flex items-center gap-0.5 px-1">
           <ToolBtn icon={Undo2} label="Undo" onClick={() => {}} shortcut="Ctrl+Z" disabled />
           <ToolBtn icon={Redo2} label="Redo" onClick={() => {}} shortcut="Ctrl+Y" disabled />
@@ -146,7 +135,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
 
         <Separator orientation="vertical" className="h-5 mx-1" />
 
-        {/* Tools Group */}
+        {}
         <div className="flex items-center gap-0.5 px-1">
             <ToolBtn
                 icon={MousePointer2}
@@ -173,7 +162,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
 
         <Separator orientation="vertical" className="h-5 mx-1" />
 
-        {/* Zoom Group */}
+        {}
         <div className="flex items-center gap-0.5 px-1">
             <ToolBtn icon={ZoomOut} label="Zoom Out" onClick={() => zoomOut()} />
             <ToolBtn icon={ZoomIn} label="Zoom In" onClick={() => zoomIn()} />
@@ -182,7 +171,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
 
         <Separator orientation="vertical" className="h-5 mx-1" />
 
-        {/* Export Group (NEW) */}
+        {}
         <div className="flex items-center gap-0.5 px-1">
             <ToolBtn
               icon={FileImage}
@@ -200,7 +189,7 @@ export function CanvasToolbar({ className }: { className?: string }) {
 
         <Separator orientation="vertical" className="h-5 mx-1" />
 
-        {/* Actions Group */}
+        {}
         <div className="flex items-center gap-0.5 px-1">
             <ToolBtn
                 icon={Trash2}

@@ -24,7 +24,7 @@ import {
   Zap
 } from "lucide-react";
 
-// --- DATA NAVIGASI SIDEBAR ---
+
 const guideSections = [
   { id: "intro", label: "Network Basics" },
   { id: "router", label: "Router" },
@@ -40,11 +40,11 @@ export default function Guide() {
   const [activeSection, setActiveSection] = useState("intro");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Scroll Spy Logic (Mendeteksi bagian yang sedang dibaca)
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = guideSections.map(s => document.getElementById(s.id));
-      const scrollPosition = window.scrollY + 120; // Offset sedikit
+      const scrollPosition = window.scrollY + 120; 
 
       for (const section of sections) {
         if (section && section.offsetTop <= scrollPosition && (section.offsetTop + section.offsetHeight) > scrollPosition) {
@@ -75,7 +75,7 @@ export default function Guide() {
 
       <div className="flex-1 max-w-7xl mx-auto w-full flex items-start relative">
 
-        {/* --- SIDEBAR (Desktop) --- */}
+        {}
         <aside className="hidden lg:block w-64 sticky top-14 h-[calc(100vh-3.5rem)] border-r border-border bg-background/50 backdrop-blur-sm">
           <ScrollArea className="h-full py-6 pr-4 pl-8">
             <h4 className="mb-4 text-xs font-bold text-primary tracking-wider uppercase flex items-center gap-2">
@@ -110,7 +110,7 @@ export default function Guide() {
           </ScrollArea>
         </aside>
 
-        {/* --- MOBILE HEADER --- */}
+        {}
         <div className="lg:hidden sticky top-14 z-40 w-full bg-background border-b border-border p-4 flex items-center justify-between">
             <span className="font-semibold text-sm">Topic: <span className="text-primary">{guideSections.find(s => s.id === activeSection)?.label}</span></span>
             <Button variant="ghost" size="sm" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -118,7 +118,7 @@ export default function Guide() {
             </Button>
         </div>
 
-        {/* --- MOBILE DRAWER --- */}
+        {}
         {mobileMenuOpen && (
              <div className="lg:hidden fixed inset-0 z-30 bg-background/95 backdrop-blur-sm pt-28 px-6 overflow-y-auto">
                 <div className="flex flex-col gap-2 pb-10">
@@ -136,10 +136,10 @@ export default function Guide() {
              </div>
         )}
 
-        {/* --- MAIN CONTENT --- */}
+        {}
         <main className="flex-1 min-w-0 py-8 px-4 md:px-12 lg:py-12">
 
-          {/* 1. INTRO */}
+          {}
           <section id="intro" className="mb-16 scroll-mt-24">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 text-xs font-medium border border-blue-500/20">
@@ -155,7 +155,7 @@ export default function Guide() {
 
           <Separator className="my-8" />
 
-          {/* 2. ROUTER */}
+          {}
           <DeviceSection
             id="router"
             icon={Router}
@@ -175,7 +175,7 @@ export default function Guide() {
 
           <Separator className="my-12" />
 
-          {/* 3. SWITCH */}
+          {}
           <DeviceSection
             id="switch"
             icon={Network}
@@ -194,7 +194,7 @@ export default function Guide() {
 
           <Separator className="my-12" />
 
-          {/* 4. ACCESS POINT */}
+          {}
           <DeviceSection
             id="ap"
             icon={Wifi}
@@ -213,7 +213,7 @@ export default function Guide() {
 
           <Separator className="my-12" />
 
-          {/* 5. ENDPOINTS */}
+          {}
           <section id="endpoints" className="scroll-mt-24">
              <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center">
@@ -253,7 +253,7 @@ export default function Guide() {
 
           <Separator className="my-12" />
 
-          {/* 6. SERVER */}
+          {}
           <DeviceSection
             id="server"
             icon={Server}
@@ -273,7 +273,7 @@ export default function Guide() {
 
           <Separator className="my-12" />
 
-          {/* 7. FIREWALL */}
+          {}
           <DeviceSection
             id="firewall"
             icon={ShieldCheck}
@@ -292,7 +292,7 @@ export default function Guide() {
 
           <Separator className="my-12" />
 
-          {/* 8. CLOUD & INTERNET */}
+          {}
           <DeviceSection
             id="cloud"
             icon={Cloud}
@@ -317,7 +317,7 @@ export default function Guide() {
   );
 }
 
-// --- REUSABLE COMPONENT FOR DEVICE SECTION ---
+
 
 interface DeviceSectionProps {
   id: string;
@@ -342,7 +342,7 @@ function DeviceSection({ id, icon: Icon, title, color, bgColor, definition, func
       </div>
 
       <div className="space-y-6">
-        {/* Definition */}
+        {}
         <div className="prose prose-slate dark:prose-invert max-w-none">
           <p className="text-lg leading-relaxed font-medium">
             {definition}
@@ -350,7 +350,7 @@ function DeviceSection({ id, icon: Icon, title, color, bgColor, definition, func
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-           {/* Fungsi */}
+           {}
            <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
               <h3 className="font-bold text-base mb-4 flex items-center gap-2">
                  <Zap className="w-4 h-4 text-yellow-500" /> Fungsi Utama
@@ -365,7 +365,7 @@ function DeviceSection({ id, icon: Icon, title, color, bgColor, definition, func
               </ul>
            </div>
 
-           {/* Real World & Cabling */}
+           {}
            <div className="space-y-6">
               <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
                  <h3 className="font-bold text-base mb-2 flex items-center gap-2">

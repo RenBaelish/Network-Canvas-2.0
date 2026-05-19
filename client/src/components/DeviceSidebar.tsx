@@ -9,7 +9,7 @@ import {
   Laptop,
   Database,
   Globe,
-  Type, // Ikon untuk Text Tool
+  Type, 
   ChevronLeft,
   ChevronRight,
   ChevronDown,
@@ -20,52 +20,41 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 import { useState } from "react";
 import type { DeviceType } from "@shared/canvas";
 
-// --- Data Configuration ---
-
-// Definisi Kategori
 type Category = "infrastructure" | "endpoints" | "security" | "cloud" | "tools";
 
 interface DeviceItem {
-  type: string; // Menggunakan string untuk fleksibilitas (DeviceType)
+  type: string; 
   label: string;
   icon: any;
   category: Category;
 }
 
-// Daftar Semua Alat / Device
 const deviceList: DeviceItem[] = [
-  // 1. Infrastructure
+
   { type: "router", label: "Router", icon: Router, category: "infrastructure" },
   { type: "switch", label: "Switch", icon: Network, category: "infrastructure" },
   { type: "access_point", label: "Access Point", icon: Wifi, category: "infrastructure" },
 
-  // 2. Endpoints
   { type: "pc", label: "PC / Workstation", icon: MonitorSmartphone, category: "endpoints" },
   { type: "laptop", label: "Laptop", icon: Laptop, category: "endpoints" },
   { type: "server", label: "Server", icon: Server, category: "endpoints" },
 
-  // 3. Security
   { type: "firewall", label: "Firewall", icon: ShieldCheck, category: "security" },
 
-  // 4. Cloud & WAN
   { type: "cloud", label: "Cloud", icon: Cloud, category: "cloud" },
   { type: "internet", label: "Internet", icon: Globe, category: "cloud" },
   { type: "database", label: "Database", icon: Database, category: "cloud" },
 
-  // 5. Tools / Misc (BARU: TEXT LABEL)
   { type: "text", label: "Text Label", icon: Type, category: "tools" },
 ];
 
-// Konfigurasi Header Kategori
 const categories: { id: Category; label: string }[] = [
   { id: "infrastructure", label: "Infrastructure" },
   { id: "endpoints", label: "End Devices" },
   { id: "security", label: "Security" },
   { id: "cloud", label: "Cloud & WAN" },
-  { id: "tools", label: "Text Labeling" }, // Kategori baru untuk Text
+  { id: "tools", label: "Text Labeling" }, 
 ];
-
-// --- Components ---
 
 interface DeviceCardProps {
   item: DeviceItem;
@@ -78,7 +67,7 @@ function DeviceCard({ item, onDragStart, compact }: DeviceCardProps) {
     <div
       draggable
       onDragStart={(e) => {
-        // Set data transfer agar bisa ditangkap oleh Canvas saat drop
+
         e.dataTransfer.setData("deviceType", item.type);
         onDragStart(item.type);
       }}
@@ -107,7 +96,7 @@ interface DeviceSidebarProps {
 }
 
 export function DeviceSidebar({ collapsed = false, onCollapse }: DeviceSidebarProps) {
-  // State untuk accordion (buka/tutup kategori)
+
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     infrastructure: true,
     endpoints: true,
@@ -130,7 +119,7 @@ export function DeviceSidebar({ collapsed = false, onCollapse }: DeviceSidebarPr
         collapsed ? "w-16" : "w-72"
       }`}
     >
-      {/* Header Sidebar */}
+      {}
       <div className="flex items-center justify-between p-4 border-b border-border h-14">
         {!collapsed && <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Library</h2>}
         <Button
@@ -143,17 +132,17 @@ export function DeviceSidebar({ collapsed = false, onCollapse }: DeviceSidebarPr
         </Button>
       </div>
 
-      {/* Content Area */}
+      {}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         {collapsed ? (
-          // --- Tampilan Collapsed (Hanya Icon) ---
+
           <div className="flex flex-col gap-2 p-2 items-center">
             {deviceList.map((device) => (
               <DeviceCard key={device.type} item={device} onDragStart={handleDragStart} compact />
             ))}
           </div>
         ) : (
-          // --- Tampilan Full (Accordion Kategori) ---
+
           <div className="p-4 space-y-6">
             {categories.map((cat) => (
               <div key={cat.id} className="space-y-3">
@@ -165,7 +154,7 @@ export function DeviceSidebar({ collapsed = false, onCollapse }: DeviceSidebarPr
                   <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${openCategories[cat.id] ? "" : "-rotate-90"}`} />
                 </button>
 
-                {/* Grid Item Devices */}
+                {}
                 {openCategories[cat.id] && (
                   <div className="grid grid-cols-2 gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
                     {deviceList
@@ -182,7 +171,7 @@ export function DeviceSidebar({ collapsed = false, onCollapse }: DeviceSidebarPr
         )}
       </div>
 
-      {/* Footer Hint */}
+      {}
       {!collapsed && (
         <div className="p-3 border-t border-border bg-sidebar/50">
           <p className="text-[10px] text-center text-muted-foreground">
@@ -194,7 +183,6 @@ export function DeviceSidebar({ collapsed = false, onCollapse }: DeviceSidebarPr
   );
 }
 
-// --- Mobile Version (Drawer/Sheet) ---
 export function MobileSidebar() {
   const [open, setOpen] = useState(false);
 

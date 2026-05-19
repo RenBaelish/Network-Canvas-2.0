@@ -16,7 +16,7 @@ import ReactFlow, {
   type NodeProps,
   ConnectionLineType,
   MarkerType,
-  ConnectionMode, // PENTING: Untuk koneksi fleksibel
+  ConnectionMode, 
 } from "reactflow";
 import "reactflow/dist/style.css";
 import {
@@ -26,8 +26,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { useCanvasStore } from "@/store/useCanvasStore";
 import type { DeviceType } from "@shared/canvas";
-
-// --- 1. CONFIGURATION (Icons & Colors) ---
 
 const deviceIcons: Record<string, any> = {
   router: Router,
@@ -40,7 +38,7 @@ const deviceIcons: Record<string, any> = {
   laptop: Laptop,
   database: Database,
   internet: Globe,
-  text: Type, // Icon untuk Text Tool
+  text: Type, 
 };
 
 const deviceColors: Record<string, string> = {
@@ -54,47 +52,41 @@ const deviceColors: Record<string, string> = {
   cloud: "bg-slate-500/10 border-slate-500/50 text-slate-600 dark:text-slate-400",
   internet: "bg-slate-500/10 border-slate-500/50 text-slate-600 dark:text-slate-400",
   database: "bg-slate-500/10 border-slate-500/50 text-slate-600 dark:text-slate-400",
-  text: "bg-transparent border-transparent", // Text transparan
+  text: "bg-transparent border-transparent", 
 };
 
-// --- 2. CUSTOM HANDLE (Titik Koneksi) ---
 const CustomHandle = ({ position, id }: { position: Position; id: string }) => {
   return (
     <Handle
-      type="source" // Di 'Loose Mode', source bisa connect ke source
+      type="source" 
       position={position}
       id={id}
       className="!w-4 !h-4 !bg-transparent !border-none z-50 flex items-center justify-center hover:scale-125 transition-transform"
       style={{
-        // Offset agar handle menempel pas di garis border
+
         ...(position === Position.Top && { top: -8 }),
         ...(position === Position.Bottom && { bottom: -8 }),
         ...(position === Position.Left && { left: -8 }),
         ...(position === Position.Right && { right: -8 }),
       }}
     >
-      {/* Visual Dot Kecil */}
+      {}
       <div className="w-2.5 h-2.5 bg-primary border-2 border-background rounded-full pointer-events-none" />
     </Handle>
   );
 };
 
-// --- 3. COMPONENTS ---
-
-// A. Interface Data
 interface DeviceNodeData {
   label: string;
   deviceType: DeviceType;
   onDelete: (id: string) => void;
 }
 
-// B. Text Node Component (Khusus untuk Label/Teks)
 function TextNodeComponent({ id, data, selected }: NodeProps<DeviceNodeData>) {
   const { updateNodeLabel, removeNode } = useCanvasStore();
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto focus saat mode edit
   useEffect(() => {
     if (isEditing && inputRef.current) {
       inputRef.current.focus();
@@ -114,7 +106,7 @@ function TextNodeComponent({ id, data, selected }: NodeProps<DeviceNodeData>) {
       `}
       onDoubleClick={() => setIsEditing(true)}
     >
-      {/* Tombol Hapus Text */}
+      {}
       {selected && !isEditing && (
         <div className="absolute -top-4 -right-4 z-[60]">
            <Button
@@ -129,7 +121,7 @@ function TextNodeComponent({ id, data, selected }: NodeProps<DeviceNodeData>) {
       )}
 
       {isEditing ? (
-        // Mode Edit
+
         <input
           ref={inputRef}
           type="text"
@@ -147,7 +139,7 @@ function TextNodeComponent({ id, data, selected }: NodeProps<DeviceNodeData>) {
           className="nodrag bg-background border border-primary rounded px-2 py-1 text-sm font-medium focus:outline-none min-w-[100px] text-center shadow-sm"
         />
       ) : (
-        // Mode Tampil
+
         <span className="text-lg font-bold text-foreground/90 px-2 py-1 cursor-text whitespace-nowrap">
           {data.label}
         </span>
@@ -156,9 +148,8 @@ function TextNodeComponent({ id, data, selected }: NodeProps<DeviceNodeData>) {
   );
 }
 
-// C. Device Node Component (Router, Switch, dll)
 function DeviceNodeComponent({ id, data, selected }: NodeProps<DeviceNodeData>) {
-  // Jika tipe 'text', render komponen TextNode
+
   if (data.deviceType === 'text') {
     return <TextNodeComponent id={id} data={data} selected={selected} type="deviceNode" xPos={0} yPos={0} isConnectable={false} dragging={false} zIndex={0} />;
   }
@@ -175,13 +166,13 @@ function DeviceNodeComponent({ id, data, selected }: NodeProps<DeviceNodeData>) 
         min-w-[90px] group
       `}
     >
-      {/* 4 Titik Koneksi */}
+      {}
       <CustomHandle position={Position.Top} id="top" />
       <CustomHandle position={Position.Right} id="right" />
       <CustomHandle position={Position.Bottom} id="bottom" />
       <CustomHandle position={Position.Left} id="left" />
 
-      {/* Tombol Hapus */}
+      {}
       {selected && (
         <div className="absolute -top-3 -right-3 z-[60]">
            <Button
@@ -198,12 +189,12 @@ function DeviceNodeComponent({ id, data, selected }: NodeProps<DeviceNodeData>) 
         </div>
       )}
 
-      {/* Icon */}
+      {}
       <div className="w-10 h-10 flex items-center justify-center mb-2 pointer-events-none">
         <Icon className="w-8 h-8 stroke-[1.5]" />
       </div>
 
-      {/* Label */}
+      {}
       <span className="text-[10px] font-bold text-foreground/90 text-center max-w-[100px] truncate px-1 select-none pointer-events-none bg-background/50 rounded-sm">
         {data.label}
       </span>
@@ -214,8 +205,6 @@ function DeviceNodeComponent({ id, data, selected }: NodeProps<DeviceNodeData>) 
 const nodeTypes: NodeTypes = {
   deviceNode: DeviceNodeComponent,
 };
-
-// --- 4. MAIN NETWORK CANVAS ---
 
 export function NetworkCanvas({ className }: { className?: string }) {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
@@ -235,10 +224,9 @@ export function NetworkCanvas({ className }: { className?: string }) {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
-  // Sync Nodes (Store -> ReactFlow)
   useEffect(() => {
     setNodes((currentNodes) => {
-      // Pertahankan status 'selected' saat sync data
+
       const selectionMap = new Map(currentNodes.map(n => [n.id, n.selected]));
       return storeNodes.map((node) => ({
         id: node.id,
@@ -254,7 +242,6 @@ export function NetworkCanvas({ className }: { className?: string }) {
     });
   }, [storeNodes, removeNode, setNodes]);
 
-  // Sync Edges (Store -> ReactFlow)
   useEffect(() => {
     setEdges((currentEdges) => {
        const selectionMap = new Map(currentEdges.map(e => [e.id, e.selected]));
@@ -264,27 +251,24 @@ export function NetworkCanvas({ className }: { className?: string }) {
         target: conn.toNodeId,
         sourceHandle: conn.sourceHandle,
         targetHandle: conn.targetHandle,
-        type: "smoothstep", // Garis siku-siku
+        type: "smoothstep", 
         selected: selectionMap.get(conn.id) || false,
         style: { stroke: "hsl(var(--foreground))", strokeWidth: 2 },
         markerEnd: { type: MarkerType.ArrowClosed, width: 15, height: 15 },
-        interactionWidth: 25, // Area klik mudah
+        interactionWidth: 25, 
       }));
     });
   }, [storeConnections, setEdges]);
 
-  // Handlers
   const onNodesDelete = useCallback((deleted: any[]) => deleted.forEach((n) => removeNode(n.id)), [removeNode]);
   const onEdgesDelete = useCallback((deleted: any[]) => deleted.forEach((e) => removeConnection(e.id)), [removeConnection]);
 
-  // Drag & Drop Handler
   const onDrop = useCallback(
     (event: React.DragEvent) => {
       event.preventDefault();
       const deviceType = event.dataTransfer.getData("deviceType") as DeviceType;
       if (!deviceType || !reactFlowInstance) return;
 
-      // Konversi posisi mouse ke posisi canvas (Akurat)
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
@@ -300,14 +284,13 @@ export function NetworkCanvas({ className }: { className?: string }) {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
-  // Connection Handler (Support Multi-port)
   const onConnect: OnConnect = useCallback(
     (params: FlowConnection) => {
       const newConnection = {
         id: `e-${params.source}-${params.target}-${Date.now()}`,
         fromNodeId: params.source!,
         toNodeId: params.target!,
-        sourceHandle: params.sourceHandle, // Simpan posisi handle (top/left/etc)
+        sourceHandle: params.sourceHandle, 
         targetHandle: params.targetHandle
       };
       addConnection(newConnection);
@@ -333,13 +316,12 @@ export function NetworkCanvas({ className }: { className?: string }) {
         onInit={setReactFlowInstance}
         nodeTypes={nodeTypes}
 
-        // --- UX SETTINGS ---
-        defaultViewport={{ x: 0, y: 0, zoom: 1 }} // Start normal 100%
+        defaultViewport={{ x: 0, y: 0, zoom: 1 }} 
         fitViewOptions={{ maxZoom: 1 }}
         minZoom={0.1}
         maxZoom={4}
 
-        connectionMode={ConnectionMode.Loose} // Allow flexible connections
+        connectionMode={ConnectionMode.Loose} 
         panOnDrag={panOnDrag}
         selectionOnDrag={activeTool === "select"}
         panOnScroll={activeTool === "pan"}
@@ -361,7 +343,7 @@ export function NetworkCanvas({ className }: { className?: string }) {
         deleteKeyCode={['Backspace', 'Delete']}
         proOptions={{ hideAttribution: true }}
       >
-        <Background color="#94a3b8" gap={24} size={1} variant="dots" />
+        <Background color="#94a3b8" gap={24} size={1} variant={"dots" as any} />
         <Controls position="bottom-right" className="bg-card border border-border shadow-md" />
         <MiniMap
             position="bottom-left"

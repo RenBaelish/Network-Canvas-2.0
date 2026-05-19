@@ -19,7 +19,7 @@ import {
   X
 } from "lucide-react";
 
-// --- DATA NAVIGASI DOCS ---
+
 const docsSections = [
   { id: "introduction", label: "Introduction" },
   { id: "interface", label: "The Interface" },
@@ -34,7 +34,7 @@ export default function Features() {
   const [activeSection, setActiveSection] = useState("introduction");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Scroll Spy Effect (Mendeteksi bagian mana yang sedang dilihat)
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = docsSections.map(s => document.getElementById(s.id));
@@ -55,7 +55,7 @@ export default function Features() {
     const element = document.getElementById(id);
     if (element) {
       window.scrollTo({
-        top: element.offsetTop - 80, // Offset untuk header sticky
+        top: element.offsetTop - 80, 
         behavior: "smooth"
       });
       setActiveSection(id);
@@ -69,7 +69,7 @@ export default function Features() {
 
       <div className="flex-1 max-w-7xl mx-auto w-full flex items-start relative">
 
-        {/* --- SIDEBAR (Desktop) --- */}
+        {}
         <aside className="hidden lg:block w-64 sticky top-14 h-[calc(100vh-3.5rem)] border-r border-border bg-background/50 backdrop-blur-sm">
           <ScrollArea className="h-full py-6 pr-4 pl-8">
             <h4 className="mb-4 text-sm font-bold text-primary tracking-wider uppercase">Contents</h4>
@@ -101,7 +101,7 @@ export default function Features() {
           </ScrollArea>
         </aside>
 
-        {/* --- MOBILE CONTENTS TOGGLE --- */}
+        {}
         <div className="lg:hidden sticky top-14 z-40 w-full bg-background border-b border-border p-4 flex items-center justify-between">
             <span className="font-semibold text-sm">On this page: <span className="text-primary">{docsSections.find(s => s.id === activeSection)?.label}</span></span>
             <Button variant="ghost" size="sm" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -109,7 +109,7 @@ export default function Features() {
             </Button>
         </div>
 
-        {/* --- MOBILE SIDEBAR DRAWER --- */}
+        {}
         {mobileMenuOpen && (
              <div className="lg:hidden fixed inset-0 z-30 bg-background/95 backdrop-blur-sm pt-28 px-6">
                 <div className="flex flex-col gap-2">
@@ -126,10 +126,10 @@ export default function Features() {
              </div>
         )}
 
-        {/* --- MAIN CONTENT --- */}
+        {}
         <main className="flex-1 min-w-0 py-8 px-4 md:px-12 lg:py-12">
 
-          {/* 1. INTRODUCTION */}
+          {}
           <section id="introduction" className="mb-16 scroll-mt-24">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight lg:text-5xl">NetVas Documentation</h1>
@@ -147,7 +147,7 @@ export default function Features() {
 
           <Separator className="my-8" />
 
-          {/* 2. INTERFACE */}
+          {}
           <section id="interface" className="mb-16 scroll-mt-24">
             <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
                <Maximize className="w-8 h-8 text-primary" />
@@ -179,7 +179,7 @@ export default function Features() {
 
           <Separator className="my-8" />
 
-          {/* 3. ADDING DEVICES */}
+          {}
           <section id="devices" className="mb-16 scroll-mt-24">
             <h2 className="text-3xl font-bold mb-6">Adding Devices</h2>
             <div className="prose prose-slate dark:prose-invert max-w-none">
@@ -201,7 +201,7 @@ export default function Features() {
 
           <Separator className="my-8" />
 
-          {/* 4. WIRING */}
+          {}
           <section id="wiring" className="mb-16 scroll-mt-24">
             <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
                <Cable className="w-8 h-8 text-primary" />
@@ -216,7 +216,7 @@ export default function Features() {
                   Interactive Demo Preview
                </div>
                <div className="p-8 flex flex-col items-center justify-center gap-8 relative">
-                  {/* Visualisasi Wiring */}
+                  {}
                   <div className="flex justify-between w-full max-w-md relative">
                      <div className="w-20 h-20 bg-background border-2 border-primary rounded-lg flex flex-col items-center justify-center shadow-sm z-10">
                         <div className="w-2 h-2 bg-primary rounded-full absolute -right-1 top-1/2 -translate-y-1/2" />
@@ -270,7 +270,7 @@ export default function Features() {
 
           <Separator className="my-8" />
 
-          {/* 5. EDITING */}
+          {}
           <section id="editing" className="mb-16 scroll-mt-24">
              <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
                <Type className="w-8 h-8 text-primary" />
@@ -303,7 +303,7 @@ export default function Features() {
 
           <Separator className="my-8" />
 
-          {/* 6. EXPORT */}
+          {}
           <section id="export" className="mb-16 scroll-mt-24">
             <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
                <Download className="w-8 h-8 text-primary" />
@@ -328,7 +328,7 @@ export default function Features() {
 
           <Separator className="my-8" />
 
-          {/* 7. SHORTCUTS */}
+          {}
           <section id="shortcuts" className="mb-24 scroll-mt-24">
              <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
                <Keyboard className="w-8 h-8 text-primary" />
@@ -362,7 +362,7 @@ export default function Features() {
   );
 }
 
-// --- HELPER COMPONENTS ---
+
 
 function Badge({ text }: { text: string }) {
    return (

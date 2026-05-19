@@ -14,9 +14,9 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/canvas" component={Canvas} />
-      <Route path="/features" component={Features} /> {/* Pindahkan ke sini (sebelum NotFound) */}
+      <Route path="/features" component={Features} /> {}
     <Route path="/guide" component={Guide} />
-      {/* Route tanpa path (404) harus SELALU ditaruh paling terakhir */}
+      {}
       <Route component={NotFound} />
     </Switch>
   );

@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// 1. Tambahkan 'text' ke sini
 export type DeviceType =
   | "router"
   | "switch"
@@ -12,7 +11,7 @@ export type DeviceType =
   | "cloud"
   | "internet"
   | "database"
-  | "text"; // <--- BARU
+  | "text"; 
 
 export interface Position {
   x: number;
@@ -54,7 +53,7 @@ export const deviceNodeSchema = z.object({
     "cloud",
     "internet",
     "database",
-    "text" // <--- BARU
+    "text" 
   ]),
   position: z.object({
     x: z.number(),
